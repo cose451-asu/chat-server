@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "com.doohochang.chat.serialization.protobuf.ChatRoom.Event";
+
+message Opened {
+    string chatroom_name = 1;
+    repeated string participated_user_ids = 2;
+    int64 at = 3;
+}
+
+message Joined {
+    string user_id = 1;
+    int64 at = 2;
+}
+
+message Left {
+    string user_id = 1;
+    int64 at = 2;
+}
+
+message Said {
+    string user_id = 1;
+    string message = 2;
+    int64 at = 3;
+}
+
+message Closed {
+    string user_id = 1;
+    int64 at = 2;
+}

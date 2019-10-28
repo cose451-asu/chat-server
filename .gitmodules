@@ -1,0 +1,3 @@
+[submodule "src/main/protobuf/service"]
+	path = src/main/protobuf/service
+	url = git@github.com:cose451-asu/chat-service.git

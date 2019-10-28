@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.doohochang.chat.serialization.protobuf.ChatRoom";
+
+message State {
+    message Open {
+        repeated string participated_user_ids = 1;
+    }
+
+    message Closed {}
+
+    oneof value {
+        Open open = 1;
+        Closed closed = 2;
+    }
+}
