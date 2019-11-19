@@ -21,12 +21,15 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in client.chatserver.key -out cli
 ```
 ### 4. Start a single CockroachDB instance
 `cockroach start` 로 데이터베이스 싱글 노드를 실행합니다.
+### 5. Set chat-sever schema
+`cockroach sql`로 `scripts/init.sql` 내 SQL을 실행합니다.
 
 ## Start chat-server
 ### 1. [Install Java8 or openjdk 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 ### 2. [Install Scala](https://www.scala-lang.org/download/)
 ### 3. [Install SBT](https://www.scala-sbt.org/1.0/docs/Setup.html)
 ### 4. Run chat-server
+CockroachDB가 실행되어 있는 상태에서 다음과 같이 chat-server를 실행합니다.
 ```$xslt
 // chat-server directory에서 실행
 git submodule init
@@ -35,3 +38,5 @@ sbt
 compile
 run
 ```
+### 5. [chat-sevice API Protocol](https://github.com/cose451-asu/chat-service)
+실행된 chat-server는 위와 같은 gRPC API 들을 지원합니다.
