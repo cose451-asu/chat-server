@@ -40,3 +40,10 @@ run
 ```
 ### 5. [chat-sevice API Protocol](https://github.com/cose451-asu/chat-service)
 실행된 chat-server는 위와 같은 gRPC API 들을 지원합니다.
+
+## Apply TLS to chat-server
+아래 두 개의 환경변수를 설정하면 서버가 TLS로 동작합니다. 
+```$xslt
+an X.509 certificate chain file in PEM format: CHAT_TLS_CERT_CHAIN_FILE 
+a PKCS#8 private key file in PEM format: CHAT_TLS_KEY_FILE
+```

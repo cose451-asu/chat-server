@@ -8,7 +8,9 @@ case class Configuration(
   grpcPort: Int,
   jwtSecretKey: String,
   accessTokenExpiry: Duration,
-  refreshTokenExpiry: Duration
+  refreshTokenExpiry: Duration,
+  tlsCertChainFile: String,
+  tlsKeyFile: String,
 )
 
 object Configuration {
@@ -19,7 +21,9 @@ object Configuration {
       grpcPort = config.getInt("grpc-port"),
       jwtSecretKey = config.getString("jwt-secret-key"),
       accessTokenExpiry = Duration.standardMinutes(config.getLong("access-token-expiry-minutes")),
-      refreshTokenExpiry = Duration.standardMinutes(config.getLong("refresh-token-expiry-minutes"))
+      refreshTokenExpiry = Duration.standardMinutes(config.getLong("refresh-token-expiry-minutes")),
+      tlsCertChainFile = config.getString("tls-key-cert-chain-file"),
+      tlsKeyFile = config.getString("tls-key-file"),
     )
   }
 }

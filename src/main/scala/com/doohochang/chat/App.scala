@@ -1,10 +1,14 @@
 package com.doohochang.chat
 
+import java.io.File
+
 import akka.actor.typed._
 import akka.cluster.sharding.typed.scaladsl._
 import akka.stream.typed.scaladsl.ActorMaterializer
 import com.typesafe.scalalogging.LazyLogging
-import io.grpc.{Server, ServerBuilder, ServerInterceptors}
+import io.grpc.{Server, ServerInterceptors}
+import io.grpc.netty.{NettyServerBuilder, GrpcSslContexts}
+import io.netty.handler.ssl.SslContextBuilder
 
 import config.Configuration
 import entity._
@@ -46,7 +50,7 @@ object App extends LazyLogging {
 
     val authRequiredServices = List(userService, chatRoomService)
 
-    val authServer = ServerBuilder.forPort(configuration.grpcPort).addService(authService)
+    val authServer = NettyServerBuilder.forPort(configuration.grpcPort).addService(authService)
 
     val userIDInterceptor = new UserIDInterceptor(configuration.jwtSecretKey)
 
@@ -54,9 +58,21 @@ object App extends LazyLogging {
       .foldLeft(authServer) { (builder, service) =>
         builder.addService(ServerInterceptors.intercept(service, userIDInterceptor))
       }
-      .build()
 
-    server
+    val tlsAppliedServer =
+      if (configuration.tlsCertChainFile.isEmpty || configuration.tlsKeyFile.isEmpty)
+        server.build()
+      else
+        server.sslContext(
+          GrpcSslContexts.configure(
+            SslContextBuilder.forServer(
+              new File(configuration.tlsCertChainFile),
+              new File(configuration.tlsKeyFile)
+            )
+          ).build()
+        ).build()
+
+    tlsAppliedServer
   }
 
   def main(args: Array[String]): Unit = {
