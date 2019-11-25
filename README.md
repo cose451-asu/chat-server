@@ -8,7 +8,7 @@ Chatting server implemented by using Scala, Akka, Cats
 ### 1. [Install CockroachDB](https://www.cockroachlabs.com/docs/stable/install-cockroachdb-mac.html)
 Follow the link above and instructions to install CockroachDB
 ### 2. [Start a local CockroachDB cluster with secure mode](https://www.cockroachlabs.com/docs/stable/secure-a-cluster.html)
-A.	This is the process of running the CockroachDB and it includes configuration for authentication. Authentication is used for secure connection between CockroachDB and chat-server. The command `cockroach cert create-client` must be run in both root and chatserver. We recommend you to set the dir for authentication to be ($HOME)/.cockroach-certs, otherwise you will have to set COCKROACH_CERTS_DIR before running chat-server. 
+This is the process of running the CockroachDB and it includes configuration for authentication. Authentication is used for secure connection between CockroachDB and chat-server. The command `cockroach cert create-client` must be run in both root and chatserver. We recommend you to set the dir for authentication to be ($HOME)/.cockroach-certs, otherwise you will have to set COCKROACH_CERTS_DIR before running chat-server. 
 ### 3. Change cert file type to pk8
 Since Jdbc does not support pem authentication file, you have to use command below to convert the authentication file to pk8
 ```$xslt
