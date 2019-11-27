@@ -6,6 +6,11 @@ import shapeless.newtype._
 package object chat {
   type DateTime = org.joda.time.DateTime
 
+  implicit val dateTimeOrdering: Ordering[DateTime] =
+    (x: DateTime, y: DateTime) => if (x.isBefore(y)) -1
+    else if (x.isAfter(y)) 1
+    else 0
+
   implicit def newtypeOps[Repr, Ops](t : Newtype[Repr, Ops])(implicit mkOps : Repr => Ops) : Ops = t.asInstanceOf[Repr]
 
   implicit class ChainOps[A](val chain: Chain[A]) extends AnyVal {

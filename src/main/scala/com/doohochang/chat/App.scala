@@ -50,13 +50,15 @@ object App extends LazyLogging {
 
     val authRequiredServices = List(userService, chatRoomService)
 
-    val authServer = NettyServerBuilder.forPort(configuration.grpcPort).addService(authService)
-
+    val rateLimitInterceptor = new RateLimitInterceptor
     val userIDInterceptor = new UserIDInterceptor(configuration.jwtSecretKey)
+
+    val authServer = NettyServerBuilder.forPort(configuration.grpcPort)
+      .addService(ServerInterceptors.intercept(authService, rateLimitInterceptor))
 
     val server = authRequiredServices
       .foldLeft(authServer) { (builder, service) =>
-        builder.addService(ServerInterceptors.intercept(service, userIDInterceptor))
+        builder.addService(ServerInterceptors.intercept(service, rateLimitInterceptor, userIDInterceptor))
       }
 
     val tlsAppliedServer =
